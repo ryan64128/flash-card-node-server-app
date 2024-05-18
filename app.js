@@ -67,8 +67,11 @@ app.post('/addUser', async(req, res) => {
         // Save the user to the database
         await newUser.save();
 
+        const successResponse = {
+            message: 'User added successfully'
+        }
         // Send a success response
-        res.status(201).send('User added successfully');
+        res.status(201).send(JSON.stringify(successResponse));
 
     } catch (error) {
         console.error(error);
