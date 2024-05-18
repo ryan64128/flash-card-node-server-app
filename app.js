@@ -30,6 +30,10 @@ mongoose.connect(uri, {
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
+    firstname: String,
+    lastname: String,
+    email: String,
+    remember: Boolean
 });
 
 const User = mongoose.model('User', userSchema);
@@ -40,7 +44,7 @@ app.use(bodyParser.json());
 app.get('/users', async (req, res) => {
     try{
         const users = await User.find();
-        const userList = users.map(user => `${user.username}, ${user.password}`).join('\n');
+        const userList = users.map(user => `${user.username}, ${user.password}, ${user.firstname}, ${user.lastname}, ${user.email}, ${user.remember}`).join('\n');
         res.send(userList);
     } catch (error) {
         console.error(error);
@@ -54,6 +58,10 @@ app.post('/addUser', async(req, res) => {
         const newUser = new User({
             username: req.body.username,
             password: req.body.password,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            remember: req.body.remember
         });
 
         // Save the user to the database
